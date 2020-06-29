@@ -10,11 +10,11 @@ this_year = dt.date.today().year
 
 
 def send_text(message):
-    with open('/home/pi/PiPy/pickle_sms.pkl', 'rb') as pkl:
+    with open('pickle_sms.pkl', 'rb') as pkl:
         pickle_sms = pickle.load(pkl)
         client = Client(pickle_sms['Twilio SID'], pickle_sms['Twilio Auth'])
-        client.messages.create(to='14043583607',
-                               from_='+12565154057',
+        client.messages.create(to='15058576634',
+                               from_='+12991823362',
                                body=message)
 
 
@@ -31,6 +31,7 @@ def number_str(number):
     return str(number) + num_str
 
 
+# first, last are the possible date ranges for fathers/mothers day for the next decade or so
 def parents_day(my_month, first, last):
     def get_day(my_year):
         for i in range(first, last):
@@ -43,20 +44,22 @@ dad_day = parents_day(6, 16, 22)
 mom_day = parents_day(5, 8, 15)
 parents_day_dict = {'father': dad_day(this_year), 'mother': mom_day(this_year)}
 
-birthday_dict = {"Melissa": (1989, 12, 29),
-                 "John": (1994, 6, 5),
-                 "Joe": (1989, 7, 20),
-                 "Melinda": (1960, 7, 5),
-                 "Craig": (1959, 4, 14),
-                 "Dad": (1958, 12, 16),
-                 "Mom": (1955, 8, 6),
-                 "Kevin": (1993, 8, 26)}
+birthday_dict = {"Melissa": (1984, 9, 11),
+                 "John": (1999, 2, 29),
+                 "Joe": (1985, 8, 1),
+                 "Melinda": (1967, 4, 13),
+                 "Craig": (1962, 11, 17),
+                 "Dad": (1950, 10, 22),
+                 "Mom": (1951, 1, 9),
+                 "Kevin": (1989, 5, 2)}
 
+# a dict for birthday datetimes
 first_bday_dict = {i: dt.date(year=birthday_dict[i][0],
                               month=birthday_dict[i][1],
                               day=birthday_dict[i][2])
                    for i in birthday_dict}
 
+# a dict for birthdays datetimes this year
 this_bday_dict = {i: dt.date(year=this_year,
                              month=birthday_dict[i][1],
                              day=birthday_dict[i][2])
@@ -87,5 +90,5 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error:
-        with open('/home/pi/PiPy/birthday_error.txt', 'a') as err:
+        with open('birthday_error.txt', 'a') as err:
             err.write(str(dt.datetime.now()) + ': ' + '\n' + str(err))
