@@ -91,4 +91,4 @@ if __name__ == '__main__':
         main()
     except Exception as error:
         with open('birthday_error.txt', 'a') as err:
-            err.write(str(dt.datetime.now()) + ': ' + '\n' + str(err))
+            err.write(str(dt.datetime.now()) + ': ' + '\n' + str(error))
